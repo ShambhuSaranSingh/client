@@ -11,6 +11,8 @@ import { ServerEndpoint } from "./config";
 import { SET_USER } from "./redux/user/actions";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { updateUserDetails } from "./redux/user/actions";
+import { serverEndpoint } from "./config"; 
 
 function App() {
   // const [userDetails, setUserDetails] = useState(null);
@@ -22,11 +24,13 @@ function App() {
 
   const logout = async () => {
     try {
-      const response=await axios.post('http://localhost:5001/auth/logout', {}, {
+      const response=await axios.post(`${serverEndpoint}/auth/logout`, {}, {
         withCredentials: true
       });
-      updateUserDetails(response.data.user);
-      window.location.href = "/"; 
+      dispatch({
+        action: 'SET_USER',
+        payload: response.data.user
+      });
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -36,7 +40,7 @@ function App() {
     const isUserLoggedIn = async () => {
       try {
         const response = await axios.post(
-          'http://localhost:5001/auth/is-user-logged-in',
+          `${serverEndpoint}/auth/is-user-logged-in`,
           {},
           { withCredentials: true }
         );

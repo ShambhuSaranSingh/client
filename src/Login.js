@@ -3,6 +3,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import {GoogleOAuthProvider, GoogleLogin} from '@react-oauth/google';
 import { serverEndpoint } from "./config";
+import { useDispatch } from "react-redux";
+import { SET_USER } from "./redux/user/actions";
 
 function Login({ updateUserDetails }) {
   const [formData, setFormData] = useState({
@@ -52,7 +54,10 @@ function Login({ updateUserDetails }) {
 
       try {
         const response = await axios.post(`${serverEndpoint}/auth/login`, body, config);
-        updateUserDetails(response.data.user);
+        dispatch({
+        action: 'SET_USER',
+        payload: response.data.user
+      });
       } catch (error) {
         console.log(error);
         setErrors({ message: "Something went wrong" });
