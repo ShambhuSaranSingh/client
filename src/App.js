@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { updateUserDetails } from "./redux/user/actions";
 import { serverEndpoint } from "./config"; 
+import UserLayout from './layout/UserLayout';
 
 function App() {
   // const [userDetails, setUserDetails] = useState(null);
@@ -61,11 +62,37 @@ function App() {
       <Route
         path="/"
         element={
+          userDetails ? 
+          <UserLayout>
+            <Navigate to="/dashboard" />
+          </UserLayout> : 
+            <Applayout>
+              <Home />
+            </Applayout>
+        }
+      />
+
+      <Route
+        path="/login"
+        element={
+          userDetails ? 
+          <UserLayout>
+            <Navigate to="/dashboard" />
+          </UserLayout> : 
+            <Applayout>
+              <Login />
+            </Applayout>
+        }
+      />
+     
+     <Route
+        path="/register"
+        element={
           userDetails ? (
             <Navigate to="/dashboard" />
           ) : (
             <Applayout>
-              <Home />
+              <Register />
             </Applayout>
           )
         }
@@ -74,28 +101,11 @@ function App() {
       <Route
         path="/dashboard"
         element={
-          userDetails ? (
-            <Dashboard logout={logout} />
-          ) : (
-            <Navigate to="/login" />
-          )
+          userDetails ? 
+          <Dashboard /> : 
+          <Navigate to="/login" />
         }
       />
-
-
-      <Route
-        path="/login"
-        element={
-          userDetails ? (
-            <Navigate to="/dashboard" />
-          ) : (
-            <Applayout>
-              <Login updateUserDetails={updateUserDetails} />
-            </Applayout>
-          )
-        }
-      />
-     
 
       <Route
         path="/logout"
@@ -108,30 +118,17 @@ function App() {
         }
       />
 
+
       <Route
         path="/error"
         element={
-          userDetails ? (
+          userDetails ? 
+          <UserLayout>
             <Error />
-          ) : (
+          </UserLayout> :
             <Applayout>
               <Error />
             </Applayout>
-          )
-        }
-      />
-
-
-      <Route
-        path="/register"
-        element={
-          userDetails ? (
-            <Navigate to="/dashboard" />
-          ) : (
-            <Applayout>
-              <Register />
-            </Applayout>
-          )
         }
       />
 

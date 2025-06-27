@@ -1,8 +1,8 @@
 function footer(){
     return (
-        <footer class="text-center bg-dark text-white p-3 fixed-bottom">
+        <div class="container-fluid bg-light text-center py-3">
             <p>© 2023 My Application. All rights reserved.</p>
-        </footer>
+        </div>
     );
 }
 export default footer;
